@@ -219,9 +219,6 @@ const executeQuery = async (
     values: any[],
     config: RedshiftMeta['config']
 )
-    console.log('executeQuery first step')
-    console.log('query :', query)
-    console.log('config [dbUsername, clusterHost', 'dbName'], config.dbUsername, config.dbPassword, config.dbName)
 
 ): Promise<Error | null> => {
 
