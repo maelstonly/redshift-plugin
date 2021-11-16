@@ -230,6 +230,8 @@ const executeQuery = async (
         port: parseInt(config.clusterPort),
     })
     console.log('step2')
+
+    console.log('client detail : ', pgClient.user, pgClient.host, pgClient.database, pgClient.port)
     await pgClient.connect()
 
     console.log('step3')
