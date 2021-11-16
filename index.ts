@@ -218,7 +218,6 @@ const executeQuery = async (
     query: string,
     values: any[],
     config: RedshiftMeta['config']
-)
 
 ): Promise<Error | null> => {
 
