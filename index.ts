@@ -90,11 +90,11 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         [],
         config
     )
-    */
+    
     if (queryError) {
         throw new Error(`Unable to connect to Redshift cluster and create table with error: ${queryError.message}`)
     }
-
+*/
     global.buffer = createBuffer({
         limit: uploadMegabytes * 1024 * 1024,
         timeoutSeconds: uploadSeconds,
