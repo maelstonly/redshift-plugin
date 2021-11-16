@@ -215,12 +215,13 @@ export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { globa
 }
 
 const executeQuery = async (
-    console.log('executeQuery first step')
     query: string,
     values: any[],
     config: RedshiftMeta['config']
+)
+    console.log('executeQuery first step')
     console.log('query :', query)
-    console.log('values :', any[])
+    console.log('values :', any[]
     console.log('config [dbUsername, clusterHost', 'dbName'], config.dbUsername, config.dbPassword, config.dbName)
 
 ): Promise<Error | null> => {
