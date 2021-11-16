@@ -218,9 +218,10 @@ const executeQuery = async (
     query: string,
     values: any[],
     config: RedshiftMeta['config']
-
 ): Promise<Error | null> => {
 
+    console.log(' query executed : ', query)
+    
     const pgClient = new Client({
         user: config.dbUsername,
         password: config.dbPassword,
