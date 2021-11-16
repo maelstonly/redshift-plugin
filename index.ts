@@ -215,9 +215,14 @@ export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { globa
 }
 
 const executeQuery = async (
+    console.log('executeQuery first step')
     query: string,
     values: any[],
     config: RedshiftMeta['config']
+    console.log('query :', query)
+    console.log('values :', any[])
+    console.log('config [dbUsername, clusterHost', 'dbName'], config.dbUsername, config.dbPassword, config.dbName)
+
 ): Promise<Error | null> => {
 
     const pgClient = new Client({
@@ -235,6 +240,7 @@ const executeQuery = async (
         await pgClient.query(query, values)
     } catch (err) {
         error = err
+        console.log('errrooor')
     }
 
     await pgClient.end()
