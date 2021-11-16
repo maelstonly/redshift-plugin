@@ -72,7 +72,7 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
 
     global.sanitizedTableName = sanitizeSqlIdentifier(config.tableName)
 
-    /*
+    
     const queryError = await executeQuery(
         `CREATE TABLE IF NOT EXISTS public.${global.sanitizedTableName} (
             uuid varchar(200),
@@ -90,12 +90,12 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         [],
         config
     )
-    */
+    
 
-    /*if (queryError) {
+    if (queryError) {
         throw new Error(`Unable to connect to Redshift cluster and create table with error: ${queryError.message}`)
     }
-    */
+    
 
     global.buffer = createBuffer({
         limit: uploadMegabytes * 1024 * 1024,
