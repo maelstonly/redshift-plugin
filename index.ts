@@ -221,7 +221,7 @@ const executeQuery = async (
 ): Promise<Error | null> => {
 
     console.log(' query executed : ', query)
-    
+
     const pgClient = new Client({
         user: config.dbUsername,
         password: config.dbPassword,
@@ -229,9 +229,10 @@ const executeQuery = async (
         database: config.dbName,
         port: parseInt(config.clusterPort),
     })
-
+    console.log('step2')
     await pgClient.connect()
 
+    console.log('step3')
     let error: Error | null = null
     try {
         await pgClient.query(query, values)
@@ -239,9 +240,10 @@ const executeQuery = async (
         error = err
         console.log('errrooor')
     }
-
+    console.log('step4')
     await pgClient.end()
 
+    console.log('step5')
     return error
 }
 
