@@ -163,8 +163,6 @@ export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { globa
     let values: InsertQueryValue[] = []
     let valuesString = ''
 
-    console.log('1. values :', values, 'valuesString :', valuesString)
-
     for (let i = 0; i < payload.batch.length; ++i) {
         const { uuid, eventName, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp } =
             payload.batch[i]
@@ -180,24 +178,20 @@ export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { globa
             ...values,
             ...[uuid, eventName, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp],
         ]
-    
-    console.log('2. values :', values, 'valuesString :', valuesString)
+  
 
     }
 
     console.log(
         `(Batch Id: ${payload.batchId}) Flushing ${payload.batch.length} event${payload.batch.length > 1 ? 's' : ''} to RedShift`
     )
-
-    console.log('inserting in table : ', global.sanitizedTableName)
+    
     const queryError = await executeQuery(
         `INSERT INTO ${global.sanitizedTableName} (uuid, event, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp)
         VALUES ${valuesString}`,
         values,
         config
     )
-    console.log('inserted')
-
     if (queryError) {
         console.error(`(Batch Id: ${payload.batchId}) Error uploading to Redshift: ${queryError.message}`)
         if (payload.retriesPerformedSoFar >= 15) {
@@ -220,8 +214,6 @@ const executeQuery = async (
     config: RedshiftMeta['config']
 ): Promise<Error | null> => {
 
-    console.log(' query executed : ', query)
-
     const pgClient = new Client({
         user: config.dbUsername,
         password: config.dbPassword,
@@ -229,23 +221,16 @@ const executeQuery = async (
         database: config.dbName,
         port: parseInt(config.clusterPort),
     })
-    console.log('step2')
-
-    console.log('client detail : ', pgClient.user, pgClient.host, pgClient.database, pgClient.port)
     await pgClient.connect()
 
-    console.log('step3')
     let error: Error | null = null
     try {
         await pgClient.query(query, values)
     } catch (err) {
         error = err
-        console.log('errrooor')
     }
-    console.log('step4')
     await pgClient.end()
 
-    console.log('step5')
     return error
 }
 
