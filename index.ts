@@ -90,11 +90,13 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         [],
         config
     )
-    
-    if (queryError) {
+    */
+
+    /*if (queryError) {
         throw new Error(`Unable to connect to Redshift cluster and create table with error: ${queryError.message}`)
     }
-*/
+    */
+
     global.buffer = createBuffer({
         limit: uploadMegabytes * 1024 * 1024,
         timeoutSeconds: uploadSeconds,
@@ -161,6 +163,8 @@ export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { globa
     let values: InsertQueryValue[] = []
     let valuesString = ''
 
+    console.log('1. values :', values, 'valuesString :', valuesString)
+
     for (let i = 0; i < payload.batch.length; ++i) {
         const { uuid, eventName, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp } =
             payload.batch[i]
@@ -176,18 +180,23 @@ export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { globa
             ...values,
             ...[uuid, eventName, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp],
         ]
+    
+    console.log('2. values :', values, 'valuesString :', valuesString)
+
     }
 
     console.log(
         `(Batch Id: ${payload.batchId}) Flushing ${payload.batch.length} event${payload.batch.length > 1 ? 's' : ''} to RedShift`
     )
 
+    console.log('inserting in table : ', global.sanitizedTableName)
     const queryError = await executeQuery(
         `INSERT INTO ${global.sanitizedTableName} (uuid, event, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp)
         VALUES ${valuesString}`,
         values,
         config
     )
+    console.log('inserted')
 
     if (queryError) {
         console.error(`(Batch Id: ${payload.batchId}) Error uploading to Redshift: ${queryError.message}`)
