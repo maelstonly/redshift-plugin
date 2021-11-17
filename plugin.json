@@ -82,7 +82,7 @@
             "name": "Events not to ignore",
             "type": "string",
             "default": "$identify"
-            "hint": "Comma separated list of events to ignore"
+            "hint": "Comma separated list of events not to ignore"
         }
     ]
 }
