@@ -76,13 +76,6 @@
             "type": "string",
             "default": "$feature_flag_called",
             "hint": "Comma separated list of events to ignore"
-        },
-                {
-            "key": "eventsNotToIgnore",
-            "name": "Events not to ignore",
-            "type": "string",
-            "default": "$identify"
-            "hint": "Comma separated list of events not to ignore"
         }
     ]
 }
