@@ -19,7 +19,7 @@ type RedshiftPlugin = Plugin<{
         uploadSeconds: string
         uploadMegabytes: string
         eventsToIgnore: string
-        eventNotToIgnore: string 
+        eventsNotToIgnore: string                          
     }
 }>
 
@@ -240,4 +240,3 @@ export const teardownPlugin: RedshiftPlugin['teardownPlugin'] = ({ global }) => 
 
 const sanitizeSqlIdentifier = (unquotedIdentifier: string): string => {
     return unquotedIdentifier.replace(/[^\w\d_.]+/g, '')
-}
