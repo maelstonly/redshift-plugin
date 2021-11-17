@@ -19,7 +19,7 @@ type RedshiftPlugin = Plugin<{
         uploadSeconds: string
         uploadMegabytes: string
         eventsToIgnore: string
-        eventsNotToIgnore: string                          
+        eventNotToIgnore: string 
     }
 }>
 
@@ -92,7 +92,6 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         config
     )
     
-
     if (queryError) {
         throw new Error(`Unable to connect to Redshift cluster and create table with error: ${queryError.message}`)
     }
@@ -111,6 +110,10 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
 
     global.eventsToIgnore = new Set(
         config.eventsToIgnore ? config.eventsToIgnore.split(',').map((event) => event.trim()) : null
+    )
+
+    global.eventsNotToIgnore = new Set(
+        config.eventsNotToIgnore ? config.eventsNotToIgnore.split(',').map((event) => event.trim()) : null
     )
 }
 
@@ -155,7 +158,7 @@ export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
         timestamp: new Date(timestamp).toISOString(),
     }
 
-    if (!global.eventsToIgnore.has(eventName)) {
+    if (global.eventsNotToIgnore.has(eventName)) {
         global.buffer.add(parsedEvent)
     }
 }
