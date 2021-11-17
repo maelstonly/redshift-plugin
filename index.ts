@@ -19,7 +19,7 @@ type RedshiftPlugin = Plugin<{
         uploadSeconds: string
         uploadMegabytes: string
         eventsToIgnore: string
-        eventsNotToIgnore: string                          
+        eventsNotToIgnore: string 
     }
 }>
 
