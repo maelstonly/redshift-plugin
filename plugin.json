@@ -81,7 +81,7 @@
             "key": "eventsNotToIgnore",
             "name": "Events not to ignore",
             "type": "string",
-            "default": ["$identify", "$pageview"]
+            "default": "$identify", "$pageview"
             "hint": "Comma separated list of events not to ignore"
         }
     ]
