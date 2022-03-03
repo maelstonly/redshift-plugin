@@ -103,6 +103,7 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         timeoutSeconds: uploadSeconds,
         onFlush: async (batch) => {
             await insertBatchIntoRedshift(
+                console.log('instert Batch Into Redshift log 2')
                 { batch, batchId: Math.floor(Math.random() * 1000000), retriesPerformedSoFar: 0 },
                 meta
             )
