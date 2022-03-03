@@ -19,7 +19,7 @@ type RedshiftPlugin = Plugin<{
         uploadSeconds: string
         uploadMegabytes: string
         eventsToIgnore: string
-        eventNotToIgnore: string 
+        eventNotToIgnore: string
     }
 }>
 
@@ -56,6 +56,7 @@ export const jobs: RedshiftPlugin['jobs'] = {
 export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
     const { global, config } = meta
 
+    console.log('setupPlugin Launched')
     const requiredConfigOptions = ['clusterHost', 'clusterPort', 'dbName', 'dbUsername', 'dbPassword']
     for (const option of requiredConfigOptions) {
         if (!(option in config)) {
@@ -91,7 +92,7 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         [],
         config
     )
-    
+
     if (queryError) {
         throw new Error(`Unable to connect to Redshift cluster and create table with error: ${queryError.message}`)
     }
@@ -108,6 +109,7 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         },
     })
 
+    console.log('buffer created')
     global.eventsToIgnore = new Set(
         config.eventsToIgnore ? config.eventsToIgnore.split(',').map((event) => event.trim()) : null
     )
@@ -164,12 +166,13 @@ export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
 export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { global, jobs, config }: RedshiftMeta) => {
     let values: InsertQueryValue[] = []
     let valuesString = ''
+    console.log('insertBatchIntoRedshifht Launched')
 
     for (let i = 0; i < payload.batch.length; ++i) {
         const { uuid, eventName, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp } =
             payload.batch[i]
 
-        // Creates format: ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11), ($12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22) 
+        // Creates format: ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11), ($12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)
         valuesString += ' ('
         for (let j = 1; j <= 11; ++j) {
             valuesString += `$${11 * i + j}${j === 11 ? '' : ', '}`
@@ -180,14 +183,14 @@ export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { globa
             ...values,
             ...[uuid, eventName, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp],
         ]
-  
+
 
     }
 
     console.log(
         `(Batch Id: ${payload.batchId}) Flushing ${payload.batch.length} event${payload.batch.length > 1 ? 's' : ''} to RedShift`
     )
-    
+
     const queryError = await executeQuery(
         `INSERT INTO ${global.sanitizedTableName} (uuid, event, properties, elements, set, set_once, distinct_id, team_id, ip, site_url, timestamp)
         VALUES ${valuesString}`,
@@ -224,7 +227,7 @@ const executeQuery = async (
         port: parseInt(config.clusterPort),
     })
     await pgClient.connect()
-
+    console.log('executing query')
     let error: Error | null = null
     try {
         await pgClient.query(query, values)
