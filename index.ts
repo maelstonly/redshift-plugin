@@ -7,6 +7,7 @@ type RedshiftPlugin = Plugin<{
         pgClient: Client
         buffer: ReturnType<typeof createBuffer>
         eventsToIgnore: Set<string>
+        eventsNotToIgnore: Set<string>
         sanitizedTableName: string
     }
     config: {
