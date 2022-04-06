@@ -164,7 +164,7 @@ export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
    
     if (!global.eventsToIgnore.has(eventName)) {
         console.log('event name :', eventName)
-        console.log('global.eventsToIgnore :', global.eventsToIgnore.values())
+        console.log('global.eventsToIgnore :', [...global.eventsToIgnore].join(' ')))
         global.buffer.add(parsedEvent)
     }
 }
