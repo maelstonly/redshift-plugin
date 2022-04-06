@@ -73,7 +73,7 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
     const uploadSeconds = Math.max(1, Math.min(parseInt(config.uploadSeconds) || 1, 600))
 
     global.sanitizedTableName = sanitizeSqlIdentifier(config.tableName)
-
+    console.log('plugin installed')
     /*
     const queryError = await executeQuery(
         `CREATE TABLE IF NOT EXISTS public.${global.sanitizedTableName} (
