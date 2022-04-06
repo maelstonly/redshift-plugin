@@ -114,9 +114,11 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         config.eventsToIgnore ? config.eventsToIgnore.split(',').map((event) => event.trim()) : null
     )
 
+    console.log('eventsNotToIgnore here')
     global.eventsNotToIgnore = new Set(
         config.eventsNotToIgnore ? config.eventsNotToIgnore.split(',').map((event) => event.trim()) : null
     )
+    console.log('global.eventsNotToIgnore :', global.eventsNotToIgnore.values())
 }
 
 export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
@@ -160,9 +162,10 @@ export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
         timestamp: new Date(timestamp).toISOString(),
     }
 
+     /*
     if (global.eventsNotToIgnore.has(eventName)) {
         global.buffer.add(parsedEvent)
-    }
+    }*/
 }
 
 export const insertBatchIntoRedshift = async (payload: UploadJobPayload, { global, jobs, config }: RedshiftMeta) => {
