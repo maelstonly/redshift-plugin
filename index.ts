@@ -117,7 +117,7 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
 
     console.log('eventsNotToIgnore here')
  
-    console.log('global.eventsNotToIgnore :)
+    console.log('global.eventsNotToIgnore :', global.eventsToIgnore.values())
 }
 
 export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
