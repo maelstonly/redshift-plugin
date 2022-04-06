@@ -161,7 +161,7 @@ export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
         timestamp: new Date(timestamp).toISOString(),
     }
 
-   
+    console.log('event name first place :', eventName)
     if (global.eventsToIgnore.has(eventName)) {
         console.log('event name :', eventName)
         console.log('global.eventsToIgnore :', [...global.eventsToIgnore].join(' ') )
