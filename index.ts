@@ -161,9 +161,9 @@ export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
         timestamp: new Date(timestamp).toISOString(),
     }
 
+    console.log('event is in blacklist:', global.eventsToIgnore.has(eventName))
     console.log('event name first place :', eventName)
     if (!global.eventsToIgnore.has(eventName)) {
-        console.log('test with event:', global.eventsToIgnore.has(eventName))
         console.log('event name :', eventName)
         global.buffer.add(parsedEvent)
     }
