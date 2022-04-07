@@ -165,6 +165,7 @@ export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
     const isInBlacklist = global.eventsToIgnore.has(eventName)
         
     console.log([...global.eventsToIgnore].join(' '))
+    console.log('size of blacklist:', global.eventsToIgnore.size() )
     
     console.log('event is in blacklist:', isInBlacklist)
     console.log('event name first place :', eventName)
