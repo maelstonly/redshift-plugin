@@ -110,14 +110,11 @@ export const setupPlugin: RedshiftPlugin['setupPlugin'] = async (meta) => {
         },
     })
 
-    console.log('buffer created a')
     global.eventsToIgnore = new Set(
         config.eventsToIgnore ? config.eventsToIgnore.split(',').map((event) => event.trim()) : null
     )
 
-    console.log('eventsNotToIgnore here')
- 
-    console.log('global.eventsToIgnore :', global.eventsToIgnore.values())
+
 }
 
 export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
@@ -164,13 +161,7 @@ export async function onEvent(event: PluginEvent, { global }: RedshiftMeta) {
 
     const isInBlacklist = global.eventsToIgnore.has(eventName)
         
-    console.log([...global.eventsToIgnore].join(' '))
-    console.log('size of blacklist:', global.eventsToIgnore.size)
-    
-    console.log('event is in blacklist:', isInBlacklist)
-    console.log('event name first place :', eventName)
     if (!isInBlacklist) {
-        console.log('event name :', eventName)
         global.buffer.add(parsedEvent)
     }
 }
